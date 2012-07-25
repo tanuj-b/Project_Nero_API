@@ -7,17 +7,12 @@ $app = new Slim();
 $app->get('/questions', 'getQuestions');
 $app->get('/tests', 'getTests');
 
-$app->get('/floors', 'getFloors');
-$app->get('/projects/:id','getProject');
-$app->get('/floors/getFloorsByProjectId/:project_id', 'getFloorsByProjectId');
-$app->get('/floors/getFloorsByProjectIds/:project_ids', 'getFloorsByProjectIds');
-
 $app->run();
 
 function getQuestions() {
 	$sql = "SELECT * from questions where flag='1'";
 	try {
-		$db = getConnection();
+		$db =  getConnection();
 		$stmt = $db->query($sql);
 		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
@@ -94,24 +89,7 @@ function getFloorsByProjectId($projectId){
 }
 
 
-function getFloorsByProjectIds($projectIds){
-	$sql = "SELECT * from floors";
-	try {
-		$db = getConnection();
-		$stmt = $db->query($sql);
-		$floors = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$db = null;
-		
-        // Include support for JSONP requests
-        if (!isset($_GET['callback'])) {
-            echo json_encode($floors);
-        } else {
-            echo $_GET['callback'] . '(' . json_encode($floors) . ');';
-        }
-
-	} catch(PDOException $e) {
-		echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}				
+function getQuestionByIds($questionId){
 }
 
 function getConnection() {

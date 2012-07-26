@@ -2,12 +2,11 @@
 /**
  * Slim - a micro PHP 5 framework
  *
- * @author      Josh Lockhart <info@slimframework.com>
+ * @author      Josh Lockhart <info@joshlockhart.com>
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     1.6.4
- * @package     Slim
+ * @version     1.5.0
  *
  * MIT LICENSE
  *
@@ -32,19 +31,21 @@
  */
 
 /**
- * Slim_Route
+ * Route
+ *
  * @package Slim
- * @author  Josh Lockhart
- * @since   1.0.0
+ * @author  Josh Lockhart <info@joshlockhart.com>
+ * @since   Version 1.0
  */
 class Slim_Route {
+
     /**
-     * @var string The route pattern (e.g. "/books/:id")
+     * @var string The route pattern (ie. "/books/:id")
      */
     protected $pattern;
 
     /**
-     * @var mixed The route callable
+     * @var mixed The callable associated with this route
      */
     protected $callable;
 
@@ -54,7 +55,7 @@ class Slim_Route {
     protected $conditions = array();
 
     /**
-     * @var array Default conditions applied to all route instances
+     * @var array Default conditions applied to all Route instances
      */
     protected static $defaultConditions = array();
 
@@ -79,13 +80,13 @@ class Slim_Route {
     protected $router;
 
     /**
-     * @var array[Callable] Middleware to be run before only this route instance
+     * @var array[Callable] Middleware
      */
     protected $middleware = array();
 
     /**
      * Constructor
-     * @param   string  $pattern    The URL pattern (e.g. "/books/:id")
+     * @param   string  $pattern    The URL pattern (ie. "/books/:id")
      * @param   mixed   $callable   Anything that returns TRUE for is_callable()
      */
     public function __construct( $pattern, $callable ) {
@@ -141,7 +142,7 @@ class Slim_Route {
      * @param   mixed $callable
      * @return  void
      */
-    public function setCallable( $callable ) {
+    public function setCallable($callable) {
         $this->callable = $callable;
     }
 
@@ -177,7 +178,7 @@ class Slim_Route {
      */
     public function setName( $name ) {
         $this->name = (string)$name;
-        $this->router->addNamedRoute($this->name, $this);
+        $this->router->cacheNamedRoute($this->name, $this);
     }
 
     /**
@@ -186,41 +187,6 @@ class Slim_Route {
      */
     public function getParams() {
         return $this->params;
-    }
-
-    /**
-     * Set route parameters
-     * @param   array $params
-     * @return  void
-     */
-    public function setParams( $params ) {
-        $this->params = $params;
-    }
-
-    /**
-     * Get route parameter value
-     * @param   string $index Name of URL parameter
-     * @return  string
-     * @throws  InvalidArgumentException If route parameter does not exist at index
-     */
-    public function getParam( $index ) {
-        if ( !isset($this->params[$index]) ) {
-            throw new InvalidArgumentException('Route parameter does not exist at specified index');
-        }
-        return $this->params[$index];
-    }
-
-    /**
-     * Set route parameter value
-     * @param   string  $index Name of URL parameter
-     * @param   mixed   $value The new parameter value
-     * @throws  InvalidArgumentException If route parameter does not exist at index
-     */
-    public function setParam( $index, $value ) {
-        if ( !isset($this->params[$index]) ) {
-            throw new InvalidArgumentException('Route parameter does not exist at specified index');
-        }
-        $this->params[$index] = $value;
     }
 
     /**
@@ -351,12 +317,13 @@ class Slim_Route {
                 }
             }
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
-     * Convert a URL parameter (e.g. ":id") into a regular expression
+     * Convert a URL parameter (ie. ":id") into a regular expression
      * @param   array   URL parameters
      * @return  string  Regular expression for URL parameter
      */
@@ -396,14 +363,14 @@ class Slim_Route {
      * registered for this route, each callable middleware is invoked in
      * the order specified.
      *
-     * This method is smart about trailing slashes on the route pattern.
-     * If this route's pattern is defined with a trailing slash, and if the
-     * current request URI does not have a trailing slash but otherwise
+     * This method is smart about trailing slashes on the route pattern. 
+     * If this route's pattern is defined with a trailing slash, and if the 
+     * current request URI does not have a trailing slash but otherwise 
      * matches this route's pattern, a Slim_Exception_RequestSlash
-     * will be thrown triggering an HTTP 301 Permanent Redirect to the same
-     * URI _with_ a trailing slash. This Exception is caught in the
-     * `Slim::call` loop. If this route's pattern is defined without a
-     * trailing slash, and if the current request URI does have a trailing
+     * will be thrown triggering an HTTP 301 Permanent Redirect to the same 
+     * URI _with_ a trailing slash. This Exception is caught in the 
+     * `Slim::run` loop. If this route's pattern is defined without a 
+     * trailing slash, and if the current request URI does have a trailing 
      * slash, this route will not be matched and a 404 Not Found
      * response will be sent if no subsequent matching routes are found.
      *
@@ -414,21 +381,18 @@ class Slim_Route {
         if ( substr($this->pattern, -1) === '/' && substr($this->router->getRequest()->getResourceUri(), -1) !== '/' ) {
             throw new Slim_Exception_RequestSlash();
         }
-
         //Invoke middleware
-        $req = $this->router->getRequest();
-        $res = $this->router->getResponse();
         foreach ( $this->middleware as $mw ) {
             if ( is_callable($mw) ) {
-                call_user_func_array($mw, array($req, $res, $this));
+                call_user_func($mw);
             }
         }
-
         //Invoke callable
-        if ( is_callable($this->callable) ) {
+        if ( is_callable($this->getCallable()) ) {
             call_user_func_array($this->callable, array_values($this->params));
             return true;
         }
         return false;
     }
+
 }

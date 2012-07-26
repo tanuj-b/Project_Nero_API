@@ -2,12 +2,11 @@
 /**
  * Slim - a micro PHP 5 framework
  *
- * @author      Josh Lockhart <info@slimframework.com>
+ * @author      Josh Lockhart <info@joshlockhart.com>
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     1.6.4
- * @package     Slim
+ * @version     1.5.0
  *
  * MIT LICENSE
  *
@@ -32,15 +31,13 @@
  */
 
 /**
- * Pass Exception
+ * Stop Exception
  *
- * This Exception will cause the Router::dispatch method
- * to skip the current matching route and continue to the next
- * matching route. If no subsequent routes are found, a
- * HTTP 404 Not Found response will be sent to the client.
+ * This Exception is thrown when the Slim application needs to abort
+ * processing and return control flow to the outer PHP script.
  *
  * @package Slim
- * @author  Josh Lockhart
- * @since   1.0.0
+ * @author  Josh Lockhart <info@joshlockhart.com>
+ * @since   Version 1.0
  */
-class Slim_Exception_Pass extends Exception {}
+class Slim_Exception_Stop extends Exception {}

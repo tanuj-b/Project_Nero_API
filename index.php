@@ -18,12 +18,6 @@ require 'Slim/Slim.php';
  */
 $app = new Slim();
 
-<<<<<<< HEAD
-$app->get('/questions', 'getQuestions');
-$app->get('/tests', 'getTests');
-
-$app->run();
-=======
 /**
  * Step 3: Define the Slim application routes
  *
@@ -162,13 +156,12 @@ $app->delete('/delete', function () {
 
 $app->get('/questions','getQuestions');
 
->>>>>>> Changed SLIM Version; Changed Index.php, new .htacess
 
 function getQuestions() {
 	echo "Getting Questions";
 	$sql = "SELECT * from questions where flag='1'";
 	try {
-		$db =  getConnection();
+		$db = getConnection();
 		$stmt = $db->query($sql);
 		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
@@ -208,49 +201,6 @@ function getTests(){
 	}				
 }
 
-<<<<<<< HEAD
-function getFloors(){
-	$sql = "SELECT * from floors";
-	
-	try {
-		$db = getConnection();
-		$stmt = $db->query($sql);
-		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
-		$db = null;
-		
-        // Include support for JSONP requests
-        if (!isset($_GET['callback'])) {
-            echo json_encode($projects);
-        } else {
-            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
-        }
-
-	} catch(PDOException $e) {
-		echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}				
-}
-
-function getFloorsByProjectId($projectId){
-	$sql = "SELECT * from floors WHERE project_id=:projectId";
-	try {
-		$db = getConnection();
-		$stmt = $db->prepare($sql);  
-		$stmt->bindParam("projectId", $projectId);
-		$stmt->execute();
-		$project = $stmt->fetchAll(PDO::FETCH_OBJ);  
-		$db = null;
-		echo json_encode($project); 
-	} catch(PDOException $e) {
-		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-	}
-}
-
-
-function getQuestionByIds($questionId){
-}
-
-=======
->>>>>>> Changed SLIM Version; Changed Index.php, new .htacess
 function getConnection() {
 	$dbhost="localhost";
 	$dbuser="dbuser";

@@ -42,7 +42,7 @@ $app->get('/', function () {
     <html>
         <head>
             <meta charset="utf-8"/>
-            <title>Slim Framework for PHP 5</title>
+            <title>TestRex. Rawr at the CAT.</title>
             <style>
                 html,body,div,span,object,iframe,
                 h1,h2,h3,h4,h5,h6,p,blockquote,pre,
@@ -87,52 +87,9 @@ $app->get('/', function () {
             </style>
         </head>
         <body>
-            <header>
-                <a href="http://www.slimframework.com"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHIAAAA6CAYAAABs1g18AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABRhJREFUeNrsXY+VsjAMR98twAo6Ao4gI+gIOIKOgCPICDoCjCAjXFdgha+5C3dcv/QfFB5i8h5PD21Bfk3yS9L2VpGnlGW5kS9wJMTHNRxpmjYRy6SycgRvL18OeMQOTYQ8HvIoJKiiz43hgHkq1zvK/h6e/TyJQXeV/VyWBOSHA4C5RvtMAiCc4ZB9FPjgRI8+YuKcrySO515a1hoAY3nc4G2AH52BZsn+MjaAEwIJICKAIR889HljMCcyrR0QE4v/q/BVBQva7Q1tAczG18+x+PvIswHEAslLbfGrMZKiXEOMAMy6LwlisQCJLPFMfKdBtli5dIihRyH7A627Iaiq5sJ1ThP9xoIgSdWSNVIHYmrTQgOgRyRNqm/M5PnrFFopr3F6B41cd8whRUSufUBU5EL4U93AYRnIWimCIiSI1wAaAZpJ9bPnxx8eyI3Gt4QybwWa6T/BvbQECUMQFkhd3jSkPFgrxwcynuBaNT/u6eJIlbGOBWSNIUDFEIwPZFAtBfYrfeIOSRSXuUYCsprCXwUIZWYnmEhJFMIocMDWjn206c2EsGLCJd42aWSyBNMnHxLEq7niMrY2qyDbQUbqrrTbwUPtxN1ZZCitQV4ZSd6DyoxhmRD6OFjuRUS/KdLGRHYowJZaqYgjt9Lchmi3QYA/cXBsHK6VfWNR5jgA1DLhwfFe4HqfODBpINEECCLO47LT/+HSvSd/OCOgQ8qE0DbHQUBqpC4BkKMPYPkFY4iAJXhGAYr1qmaqQDbECCg5A2NMchzR567aA4xcRKclI405Bmt46vYD7/Gcjqfk6GP/kh1wovIDSHDfiAs/8bOCQ4cf4qMt7eH5Cucr3S0aWGFfjdLHD8EhCFvXQlSqRrY5UV2O9cfZtk77jUFMXeqzCEZqSK4ICkSin2tE12/3rbVcE41OBjBjBPSdJ1N5lfYQpIuhr8axnyIy5KvXmkYnw8VbcwtTNj7fDNCmT2kPQXA+bxpEXkB21HlnSQq0gD67jnfh5KavVJa/XQYEFSaagWwbgjNA+ywstLpEWTKgc5gwVpsyO1bTII+tA6B7BPS+0PiznuM9gPKsPVXbFdADMtwbJxSmkXWfRh6AZhyyzBjIHoDmnCGaMZAKjd5hyNJYCBGDOVcg28AXQ5atAVDO3c4dSALQnYblfa3M4kc/cyA7gMIUBQCTyl4kugIpy8yA7ACqK8Uwk30lIFGOEV3rPDAELwQkr/9YjkaCPDQhCcsrAYlF1v8W8jAEYeQDY7qn6tNGWudfq+YUEr6uq6FZzBpJMUfWFDatLHMCciw2mRC+k81qCCA1DzK4aUVfrJpxnloZWCPVnOgYy8L3GvKjE96HpweQoy7iwVQclVutLOEKJxA8gaRCjSzgNI2zhh3bQhzBCQQPIHGaHaUd96GJbZz3Smmjy16u6j3FuKyNxcBarxqWWfYFE0tVVO1Rl3t1Mb05V00MQCJ71YHpNaMcsjWAfkQvPPkaNC7LqTG7JAhGXTKYf+VDeXAX9IvURoAwtTFHvyYIxtnd5tPkywrPafcwbeSuGVwFau3b76NO7SHQrvqhfFE8kM0Wvpv8gVYiYBlxL+fW/34bgP6bIC7JR7YPDubcHCPzIp4+cum7U6NlhZgK7lua3KGLeFwE2m+HblDYWSHG2SAfINuwBBfxbJEIuWZbBH4fAExD7cvaGVyXyH0dhiAYc92z3ZDfUVv+jgb8HrHy7WVO/8BFcy9vuTz+nwADAGnOR39Yg/QkAAAAAElFTkSuQmCC" alt="Slim"/></a>
-            </header>
-            <h1>Welcome to Slim!</h1>
-            <p>
-                Congratulations! Your Slim application is running. If this is
-                your first time using Slim, start with this <a href="http://www.slimframework.com/learn" target="_blank">"Hello World" Tutorial</a>.
-            </p>
-            <section>
-                <h2>Get Started</h2>
-                <ol>
-                    <li>The application code is in <code>index.php</code></li>
-                    <li>Read the <a href="http://www.slimframework.com/documentation/stable" target="_blank">online documentation</a></li>
-                    <li>Follow <a href="http://www.twitter.com/slimphp" target="_blank">@slimphp</a> on Twitter</li>
-                </ol>
-            </section>
-            <section>
-                <h2>Slim Framework Community</h2>
-
-                <h3>Support Forum and Knowledge Base</h3>
-                <p>
-                    Visit the <a href="http://help.slimframework.com" target="_blank">Slim support forum and knowledge base</a>
-                    to read announcements, chat with fellow Slim users, ask questions, help others, or show off your cool
-                    Slim Framework apps.
-                </p>
-
-                <h3>Twitter</h3>
-                <p>
-                    Follow <a href="http://www.twitter.com/slimphp" target="_blank">@slimphp</a> on Twitter to receive the very latest news
-                    and updates about the framework.
-                </p>
-
-                <h3>IRC</h3>
-                <p>
-                    Find Josh Lockhart in the irc.freenode.net "##slim" IRC channel during the day. Say hi, ask questions,
-                    or just hang out with fellow Slim users.
-                </p>
-            </section>
-            <section style="padding-bottom: 20px">
-                <h2>Slim Framework Extras</h2>
-                <p>
-                    Custom View classes for Smarty, Twig, Mustache, and other template
-                    frameworks are available online in a separate repository.
-                </p>
-                <p><a href="https://github.com/codeguy/Slim-Extras" target="_blank">Browse the Extras Repository</a></p>
-            </section>
+            <h1>Welcome to TestRex!</h1>
+            <a href="./questions/all">Questions</a> <br />
+            <a href="./tests/all">tests</a> <br />
         </body>
     </html>
 EOT;
@@ -154,11 +111,41 @@ $app->delete('/delete', function () {
     echo 'This is a DELETE route';
 });
 
-$app->get('/questions','getQuestions');
+$app->get('/questions/all','getQuestions');
+$app->get('/questions/:id','getQuestionByID');
+$app->get('/tests/all','getTests');
+$app->get('/tests/:id','getTestByID');
 
+/*
+Functions : getQuestions (All Questions)
+			getQuestionByID (Question by Id)
+			getTests (All Tests)
+			getTestByID (Tests by ID)
+			
+
+*/
+
+function getQuestionByID($id) {
+	echo "Getting Question $id <br />";
+	$sql = "SELECT * from questions where id='$id'";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+        // Include support for JSONP requests
+        if (!isset($_GET['callback'])) {
+            echo json_encode($projects);
+        } else {
+            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+        }
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}				
+}
 
 function getQuestions() {
-	echo "Getting Questions";
+	echo "Getting Questions<br />";
 	$sql = "SELECT * from questions where flag='1'";
 	try {
 		$db = getConnection();
@@ -176,14 +163,9 @@ function getQuestions() {
 	}				
 }
 
-function getTests(){
-	/*if (isset($_GET['name'])) {
-        return getEmployeesByName($_GET['name']);
-    } else if (isset($_GET['modifiedSince'])) {
-        return getModifiedEmployees($_GET['modifiedSince']);
-    }*/
-	$sql = "SELECT p.id as id,p.name AS name,p.address,p.lat,p.lng,p.min_rate,p.max_rate, p.area, p.logo, b.name AS builder_name 
-			FROM projects p LEFT JOIN builders b ON p.builder_id=b.id";
+function getTestByID($id) {
+	echo "Getting Test $id <br />";
+	$sql = "SELECT * from tests where id='$id'";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);
@@ -195,7 +177,25 @@ function getTests(){
         } else {
             echo $_GET['callback'] . '(' . json_encode($projects) . ');';
         }
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}				
+}
 
+function getTests() {
+	echo "Getting Tests<br />";
+	$sql = "SELECT * from tests";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+        // Include support for JSONP requests
+        if (!isset($_GET['callback'])) {
+            echo json_encode($projects);
+        } else {
+            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+        }
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}				

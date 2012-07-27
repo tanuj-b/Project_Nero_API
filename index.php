@@ -88,8 +88,8 @@ $app->get('/', function () {
         </head>
         <body>
             <h1>Welcome to TestRex!</h1>
-            <a href="./questions/all">Questions</a> <br />
-            <a href="./tests/all">tests</a> <br />
+            <a href="./questions">Questions</a> <br />
+            <a href="./tests">tests</a> <br />
         </body>
     </html>
 EOT;
@@ -111,9 +111,9 @@ $app->delete('/delete', function () {
     echo 'This is a DELETE route';
 });
 
-$app->get('/questions/all','getQuestions');
+$app->get('/questions','getQuestions');
 $app->get('/questions/:id','getQuestionByID');
-$app->get('/tests/all','getTests');
+$app->get('/tests','getTests');
 $app->get('/tests/:id','getTestByID');
 
 /*

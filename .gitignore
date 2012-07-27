@@ -1,0 +1,8 @@
+*.project
+*.settings
+*.dll
+*.exe
+*.o
+*.so
+*.DS_Store
+*.htaccess

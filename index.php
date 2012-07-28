@@ -89,7 +89,7 @@ $app->get('/', function () {
         <body>
             <h1>Welcome to TestRex!</h1>
             <a href="./questions">Questions</a> <br />
-            <a href="./tests">tests</a> <br />
+            <a href="./quizzes">tests</a> <br />
         </body>
     </html>
 EOT;
@@ -113,17 +113,43 @@ $app->delete('/delete', function () {
 
 $app->get('/questions','getQuestions');
 $app->get('/questions/:id','getQuestionByID');
-$app->get('/tests','getTests');
-$app->get('/tests/:id','getTestByID');
+$app->get('/quizzes','getQuizzes');
+$app->get('/quizzes/:id','getQuizByID');
+$app->get('/quizzes/getnext/:uid','getNextQuizzes');
 
 /*
 Functions : getQuestions (All Questions)
 			getQuestionByID (Question by Id)
 			getTests (All Tests)
 			getTestByID (Tests by ID)
-			
-
 */
+
+function getNextQuizzes($uid) {
+	
+	//$testIDs = generateQuizByUID($uid);
+	$testIDs = [1,2,3,4,5,6];
+	$sql = "SELECT * from tests where id=".$testIDs[0];
+	
+	for($i=1;$i<6;$i++){
+	$sql = $sql . " OR id=".$testIDs[$i];
+	}
+	
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		
+        // Include support for JSONP requests
+        if (!isset($_GET['callback'])) {
+            echo json_encode($projects);
+        } else {
+            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+        }
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}				
+}
 
 function getQuestionByID($id) {
 	echo "Getting Question $id <br />";
@@ -163,7 +189,7 @@ function getQuestions() {
 	}				
 }
 
-function getTestByID($id) {
+function getQuizByID($id) {
 	echo "Getting Test $id <br />";
 	$sql = "SELECT * from tests where id='$id'";
 	try {
@@ -182,7 +208,7 @@ function getTestByID($id) {
 	}				
 }
 
-function getTests() {
+function getQuizzes() {
 	echo "Getting Tests<br />";
 	$sql = "SELECT * from tests";
 	try {

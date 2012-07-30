@@ -123,6 +123,21 @@ Functions : getQuestions (All Questions)
 			getTests (All Tests)
 			getTestByID (Tests by ID)
 */
+function objectToArray( $object )
+    {
+        if( !is_object( $object ) && !is_array( $object ) )
+        {
+            return $object;
+        }
+        if( is_object( $object ) )
+        {
+            $object = get_object_vars( $object );
+        }
+        return array_map( 'objectToArray', $object );
+    }
+
+
+
 function generateQuizByUID($uid)
 {
 	//quiz Generation Algorithm goes here
@@ -151,6 +166,7 @@ function getNextQuizzes($uid) {
 		$qListIDs =array();
 		$qIDs =array();
 		$question_sets_index =array();
+		$output_quizzes=array();
 				
 		foreach ($quizzes as $quiz)
 		{
@@ -203,7 +219,7 @@ function getNextQuizzes($uid) {
 		{
 			$questions_index[$question->id] = $question;
 		}
-						
+			
 		foreach ($quizzes as $quiz)
 		{
 			
@@ -215,23 +231,33 @@ function getNextQuizzes($uid) {
 			$output_quiz["total_score"] = 0;
 			
 			$qListCollection = array();
-			
+		
 			foreach(explode("|:",$quiz->question_list_ids) as $tempQListID)
 			{
-				$qListCollection[]=$question_sets_index[$tempQListID];
-				
+				$qListCollection[$tempQListID] = objectToArray($question_sets_index[$tempQListID]);	
 			}
-		
+			$questions_f = array();
+			foreach($qListCollection as $qList)
+			{
+				foreach(explode("|:",$qList["question_id_list"]) as $qid)
+				{
+					$questions_f[$qid] = objectToArray($questions_index[$qid]);
+				}
+				$qListCollection[$qList["id"]]["questions_f"]=$questions_f;
+			}
+			
+			
+			$output_quiz["qListCollection"]=$qListCollection;
+			$output_quizzes[]=$output_quiz;
 		}
 		
 		
-		/*
         // Include support for JSONP requests
         if (!isset($_GET['callback'])) {
-            echo json_encode($projects);
+            echo json_encode($output_quizzes);
         } else {
-            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
-        }*/
+            echo $_GET['callback'] . '(' . json_encode($output_quizzes) . ');';
+        }
         
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}';

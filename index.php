@@ -123,32 +123,119 @@ Functions : getQuestions (All Questions)
 			getTests (All Tests)
 			getTestByID (Tests by ID)
 */
+function generateQuizByUID($uid)
+{
+	//quiz Generation Algorithm goes here
+	$testIDs = [1,2,3,4,5,6];
+	return $testIDs;
+	
+}
 
 function getNextQuizzes($uid) {
 	
-	//$testIDs = generateQuizByUID($uid);
-	$testIDs = [1,2,3,4,5,6];
-	$sql = "SELECT * from tests where id=".$testIDs[0];
+	$testIDs = generateQuizByUID($uid);
+	$sql = "SELECT * from quizzes where id=".$testIDs[0];
 	
 	for($i=1;$i<6;$i++){
 	$sql = $sql . " OR id=".$testIDs[$i];
 	}
 	
+
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);
-		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$quizzes = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
 		
+		
+		$qListIDs =array();
+		$qIDs =array();
+		$question_sets_index =array();
+				
+		foreach ($quizzes as $quiz)
+		{
+			$qList = explode("|:",$quiz->question_list_ids);
+			
+			foreach($qList as $tempqid)
+			{
+				$qListIDs[] = $tempqid;
+			}
+		}
+		
+		$sql2 = "select * from question_list where id=".$qListIDs[0];
+			
+		for($i=1;$i<count($qListIDs);$i++)
+		{
+			$sql2 = $sql2 . " OR id=" . $qListIDs[$i];				
+		}
+
+		$db = getConnection();
+		$stmt = $db->query($sql2);
+		$question_sets = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+
+		
+		foreach ($question_sets as $question_set)
+		{
+			$qList = explode("|:",$question_set->question_id_list);
+			
+			$question_sets_index[$question_set->id]=$question_set;
+			
+			foreach($qList as $tempqid)
+			{$qIDs[] = $tempqid;}
+		}
+		
+		$sql3 = "select * from questions where id=".$qIDs[0];
+			
+		for($i=1;$i<count($qIDs);$i++)
+		{
+			$sql3 = $sql3 . " OR id=" . $qIDs[$i];				
+		}
+		
+		$db = getConnection();
+		$stmt = $db->query($sql3);
+		$questions = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+						
+		$questions_index = array();
+		
+		foreach($questions as $question)
+		{
+			$questions_index[$question->id] = $question;
+		}
+						
+		foreach ($quizzes as $quiz)
+		{
+			
+			$output_quiz["id"] = $quiz->id;
+			$output_quiz["l1_id"] = $quiz->l1_id;
+			$now = new DateTime('now');
+			$output_quiz["send_time"] = $now->getTimestamp();
+			$output_quiz["sync_time"] = $now->getTimestamp();
+			$output_quiz["total_score"] = 0;
+			
+			$qListCollection = array();
+			
+			foreach(explode("|:",$quiz->question_list_ids) as $tempQListID)
+			{
+				$qListCollection[]=$question_sets_index[$tempQListID];
+				
+			}
+		
+		}
+		
+		
+		/*
         // Include support for JSONP requests
         if (!isset($_GET['callback'])) {
             echo json_encode($projects);
         } else {
             echo $_GET['callback'] . '(' . json_encode($projects) . ');';
-        }
+        }*/
+        
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}';
-	}				
+	}	
 }
 
 function getQuestionByID($id) {
@@ -191,7 +278,7 @@ function getQuestions() {
 
 function getQuizByID($id) {
 	echo "Getting Test $id <br />";
-	$sql = "SELECT * from tests where id='$id'";
+	$sql = "SELECT * from quizzes where id='$id'";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);
@@ -210,7 +297,7 @@ function getQuizByID($id) {
 
 function getQuizzes() {
 	echo "Getting Tests<br />";
-	$sql = "SELECT * from tests";
+	$sql = "SELECT * from quizzes";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);

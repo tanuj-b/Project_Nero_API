@@ -141,7 +141,7 @@ function objectToArray( $object )
 function generateQuizByUID($uid)
 {
 	//quiz Generation Algorithm goes here
-	$testIDs = array(1,2,3,4,5,6);
+	$testIDs = [1,2,3,4,5,6];
 	return $testIDs;
 	
 }
@@ -151,7 +151,7 @@ function getNextQuizzes($uid) {
 	$testIDs = generateQuizByUID($uid);
 	$sql = "SELECT * from quizzes where id=".$testIDs[0];
 	
-	for($i=1;$i<count($testIDs);$i++){
+	for($i=1;$i<6;$i++){
 	$sql = $sql . " OR id=".$testIDs[$i];
 	}
 	

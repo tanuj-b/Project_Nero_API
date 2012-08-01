@@ -251,7 +251,7 @@ function getNextQuizzes($uid) {
 			}
 			
 			
-			$output_quiz["qListCollection"]=$qListCollection;
+			$output_quiz["questionLists"]=$qListCollection;
 			$output_quizzes[]=$output_quiz;
 		}
 		

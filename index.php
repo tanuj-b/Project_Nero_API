@@ -231,19 +231,23 @@ function getNextQuizzes($uid) {
 			$output_quiz["total_score"] = 0;
 			
 			$qListCollection = array();
-		
+			$qListIDMap = array(0);
+			
 			foreach(explode("|:",$quiz->question_list_ids) as $tempQListID)
 			{
-				$qListCollection[$tempQListID] = objectToArray($question_sets_index[$tempQListID]);	
+				$qListIDMap[$tempQListID] = $qListIDMap[0];
+				$qListIDMap[0] = 1;
+				
+				$qListCollection[$qListIDMap[$tempQListID]] = objectToArray($question_sets_index[$tempQListID]);	
 			}
 			$questions_f = array();
 			foreach($qListCollection as $qList)
 			{
 				foreach(explode("|:",$qList["question_id_list"]) as $qid)
 				{
-					$questions_f[$qid] = objectToArray($questions_index[$qid]);
+					$questions_f[] = objectToArray($questions_index[$qid]);
 				}
-				$qListCollection[$qList["id"]]["questions_f"]=$questions_f;
+				$qListCollection[$qListIDMap[$qList["id"]]]["questions_f"]=$questions_f;
 			}
 			
 			

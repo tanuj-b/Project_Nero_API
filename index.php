@@ -247,7 +247,7 @@ function getNextQuizzes($uid) {
 				{
 					$questions_f[] = objectToArray($questions_index[$qid]);
 				}
-				$qListCollection[$qListIDMap[$qList["id"]]]["questions_f"]=$questions_f;
+				$qListCollection[$qListIDMap[$qList["id"]]]["questions"]=$questions_f;
 			}
 			
 			

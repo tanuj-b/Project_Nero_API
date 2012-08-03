@@ -149,12 +149,7 @@ function generateQuizByUID($uid)
 function getNextQuizzes($uid) {
 	
 	$testIDs = generateQuizByUID($uid);
-	$sql = "SELECT * from quizzes where id=".$testIDs[0];
-	
-	for($i=1;$i<count($testIDs);$i++){
-	$sql = $sql . " OR id=".$testIDs[$i];
-	}
-	
+	$sql = "SELECT * from quizzes where id IN (".implode(",",$testIDs).")";
 
 	try {
 		$db = getConnection();
@@ -178,12 +173,7 @@ function getNextQuizzes($uid) {
 			}
 		}
 		
-		$sql2 = "select * from question_list where id=".$qListIDs[0];
-			
-		for($i=1;$i<count($qListIDs);$i++)
-		{
-			$sql2 = $sql2 . " OR id=" . $qListIDs[$i];				
-		}
+		$sql2 = "select * from question_list where id IN (".implode(",",$qListIDs).")";			
 
 		$db = getConnection();
 		$stmt = $db->query($sql2);
@@ -201,12 +191,8 @@ function getNextQuizzes($uid) {
 			{$qIDs[] = $tempqid;}
 		}
 		
-		$sql3 = "select * from questions where id=".$qIDs[0];
+		$sql3 = "select * from questions where id IN (".implode(",",$qIDs).")";
 			
-		for($i=1;$i<count($qIDs);$i++)
-		{
-			$sql3 = $sql3 . " OR id=" . $qIDs[$i];				
-		}
 		
 		$db = getConnection();
 		$stmt = $db->query($sql3);

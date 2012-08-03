@@ -222,7 +222,7 @@ function getNextQuizzes($uid) {
 			foreach(explode("|:",$quiz->question_list_ids) as $tempQListID)
 			{
 				$qListIDMap[$tempQListID] = $qListIDMap[0];
-				$qListIDMap[0] = 1;
+				$qListIDMap[0] += 1;
 				
 				$qListCollection[$qListIDMap[$tempQListID]] = objectToArray($question_sets_index[$tempQListID]);	
 			}

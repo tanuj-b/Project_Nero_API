@@ -226,9 +226,10 @@ function getNextQuizzes($uid) {
 				
 				$qListCollection[$qListIDMap[$tempQListID]] = objectToArray($question_sets_index[$tempQListID]);	
 			}
-			$questions_f = array();
+			
 			foreach($qListCollection as $qList)
 			{
+				$questions_f = array();	
 				foreach(explode("|:",$qList["question_id_list"]) as $qid)
 				{
 					$questions_f[] = objectToArray($questions_index[$qid]);

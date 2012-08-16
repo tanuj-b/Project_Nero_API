@@ -313,7 +313,6 @@ function getQuizByID($id) {
 }
 
 function getQuizzes() {
-	echo "Getting Tests<br />";
 	$sql = "SELECT * from quizzes";
 	try {
 		$db = getConnection();

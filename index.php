@@ -112,9 +112,12 @@ $app->delete('/delete', function () {
 });
 
 $app->get('/questions/','getQuestions');
-$app->get('/questions/:id','getQuestionByID');
+$app->get('/questions/:id','getQuestion');
 $app->get('/quizzes/','getQuizzes');
-$app->get('/quizzes/:id','getQuizByID');
+$app->get('/quizzes/:id','getQuiz');
+$app->get('/questionsets/','getQuestionSets');
+$app->get('/questionsets/:id','getQuestionSet');
+
 $app->get('/quizzes/getnext/:uid','getNextQuizzes');
 
 /*
@@ -255,7 +258,7 @@ function getNextQuizzes($uid) {
 	}	
 }
 
-function getQuestionByID($id) {
+function getQuestion($id) {
 	echo "Getting Question $id <br />";
 	$sql = "SELECT * from questions where id='$id'";
 	try {
@@ -293,7 +296,44 @@ function getQuestions() {
 	}				
 }
 
-function getQuizByID($id) {
+function getQuestionSet($id) {
+	echo "Getting Test $id <br />";
+	$sql = "SELECT * from question_sets where id='$id'";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+        // Include support for JSONP requests
+        if (!isset($_GET['callback'])) {
+            echo json_encode($projects);
+        } else {
+            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+        }
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}				
+}
+
+function getQuestionSets() {
+	$sql = "SELECT * from question_sets";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+        // Include support for JSONP requests
+        if (!isset($_GET['callback'])) {
+            echo json_encode($projects);
+        } else {
+            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+        }
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}				
+}
+
+function getQuiz($id) {
 	echo "Getting Test $id <br />";
 	$sql = "SELECT * from quizzes where id='$id'";
 	try {

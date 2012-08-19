@@ -74,7 +74,7 @@ CREATE TABLE `accounts` (
   `password` varchar(20) DEFAULT NULL,
   `firstName` varchar(20) DEFAULT NULL,
   `lastName` varchar(20) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
+  `email` varchar(40) DEFAULT NULL,
   `ascoreL1` varchar(200) DEFAULT NULL COMMENT 'separated by ||',
   `ascoreL2` varchar(200) DEFAULT NULL COMMENT 'separated by ||',
   `createdOn` datetime DEFAULT NULL,
@@ -83,13 +83,12 @@ CREATE TABLE `accounts` (
   `deletedOn` datetime DEFAULT NULL,
   `suspendedOn` datetime DEFAULT NULL,
   `resetsentOn` datetime DEFAULT NULL,
-  `picture` varchar(240) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=ascii;
 
 /*Data for the table `accounts` */
 
-insert  into `accounts`(`id`,`username`,`password`,`firstName`,`lastName`,`email`,`ascoreL1`,`ascoreL2`,`createdOn`,`verifiedOn`,`lastsignedinOn`,`deletedOn`,`suspendedOn`,`resetsentOn`,`picture`) values (1,'ssachan',NULL,'shikhar','sachan','shikhar.sachan@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'raghav',NULL,'raghav','verma','email@mskd',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `accounts`(`id`,`username`,`password`,`firstName`,`lastName`,`email`,`ascoreL1`,`ascoreL2`,`createdOn`,`verifiedOn`,`lastsignedinOn`,`deletedOn`,`suspendedOn`,`resetsentOn`) values (1,'ssachan',NULL,'shikhar','sachan','shikhar.sachan@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'raghav',NULL,'raghav','verma','email@mskd',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `ascored_l2` */
 
@@ -228,20 +227,6 @@ CREATE TABLE `question_tags` (
 
 insert  into `question_tags`(`id`,`name`) values (1,'lengthy'),(2,'calculations');
 
-/*Table structure for table `question_type` */
-
-DROP TABLE IF EXISTS `question_type`;
-
-CREATE TABLE `question_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-/*Data for the table `question_type` */
-
-insert  into `question_type`(`id`,`type`) values (1,'normal'),(2,'paragraph');
-
 /*Table structure for table `questions` */
 
 DROP TABLE IF EXISTS `questions`;
@@ -254,7 +239,6 @@ CREATE TABLE `questions` (
   `explanation` varchar(5000) DEFAULT NULL COMMENT 'information on options separated by ''||''',
   `l3Id` int(11) DEFAULT NULL,
   `difficulty` int(1) DEFAULT NULL,
-  `questionTypeId` int(11) DEFAULT NULL,
   `questionSetId` int(11) DEFAULT NULL,
   `averageTimeCorrect` timestamp NULL DEFAULT NULL,
   `mobileFlag` int(1) DEFAULT '1',
@@ -263,16 +247,19 @@ CREATE TABLE `questions` (
   `averageTimeUnattempted` timestamp NULL DEFAULT NULL,
   `resourcesIds` varchar(30) DEFAULT NULL,
   `tagIds` varchar(30) DEFAULT NULL,
+  `allotedTime` timestamp NULL DEFAULT NULL,
+  `qscoreCorrect` int(2) DEFAULT NULL,
+  `qscoreIncorrect` int(2) DEFAULT NULL,
+  `qscoreUnattempted` int(2) DEFAULT NULL,
+  `qscore` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `question_list_id` (`questionSetId`),
-  KEY `questionTypeId` (`questionTypeId`),
-  CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`questionTypeId`) REFERENCES `question_type` (`id`),
   CONSTRAINT `questions_ibfk_2` FOREIGN KEY (`questionSetId`) REFERENCES `question_sets` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=ascii;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=ascii;
 
 /*Data for the table `questions` */
 
-insert  into `questions`(`id`,`questionText`,`options`,`correctOption`,`explanation`,`l3Id`,`difficulty`,`questionTypeId`,`questionSetId`,`averageTimeCorrect`,`mobileFlag`,`availableFlag`,`averageTimeIncorrect`,`averageTimeUnattempted`,`resourcesIds`,`tagIds`) values (1,'aaaa','a|:b|:c|:d',0,NULL,NULL,NULL,NULL,1,NULL,1,NULL,NULL,NULL,NULL,NULL),(2,'bbbb','a|:b',0,NULL,NULL,NULL,NULL,1,NULL,1,NULL,NULL,NULL,NULL,NULL),(3,'ccc','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(4,'ddd','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(5,'eeee','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(6,'fff','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(7,'ggg','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(8,'ccc','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(9,'ccc','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(10,'ccc','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL),(11,'ccc','e|:f',1,NULL,NULL,NULL,NULL,2,NULL,1,NULL,NULL,NULL,NULL,NULL);
+insert  into `questions`(`id`,`questionText`,`options`,`correctOption`,`explanation`,`l3Id`,`difficulty`,`questionSetId`,`averageTimeCorrect`,`mobileFlag`,`availableFlag`,`averageTimeIncorrect`,`averageTimeUnattempted`,`resourcesIds`,`tagIds`,`allotedTime`,`qscoreCorrect`,`qscoreIncorrect`,`qscoreUnattempted`,`qscore`) values (1,'aaaa','a|:b|:c|:d',0,NULL,NULL,NULL,1,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'bbbb','a|:b',0,NULL,NULL,NULL,1,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'ddd','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'eeee','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,'fff','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'ggg','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(12,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `quizzes` */
 
@@ -285,12 +272,14 @@ CREATE TABLE `quizzes` (
   `accountId` int(11) DEFAULT NULL,
   `currentFlag` int(1) DEFAULT NULL,
   `mobileFlag` int(1) DEFAULT NULL,
+  `questionSetCount` int(3) DEFAULT NULL,
+  `allotedTime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=ascii;
 
 /*Data for the table `quizzes` */
 
-insert  into `quizzes`(`id`,`questionSetIds`,`l1Id`,`accountId`,`currentFlag`,`mobileFlag`) values (1,'1|:2|:3|:4',NULL,NULL,NULL,NULL),(2,'4|:3|:2|:1',NULL,NULL,NULL,NULL),(3,'1|:2',NULL,NULL,NULL,NULL),(4,'1|:2',NULL,NULL,NULL,NULL),(5,'1|:2',NULL,NULL,NULL,NULL),(6,'1|:2',NULL,NULL,NULL,NULL);
+insert  into `quizzes`(`id`,`questionSetIds`,`l1Id`,`accountId`,`currentFlag`,`mobileFlag`,`questionSetCount`,`allotedTime`) values (1,'1|:2|:3|:4',NULL,NULL,NULL,NULL,NULL,NULL),(2,'4|:3|:2|:1',NULL,NULL,NULL,NULL,NULL,NULL),(3,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(4,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(5,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(6,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `resources` */
 
@@ -316,7 +305,7 @@ CREATE TABLE `responses` (
   `optionSelected` int(1) DEFAULT NULL COMMENT 'options number separated by "||"',
   `time` varchar(500) DEFAULT NULL COMMENT 'time taken per question separated by "||"',
   `timeScore` varchar(100) DEFAULT NULL,
-  `status` varchar(20) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
   `l1Id` int(11) DEFAULT NULL,
   `l2Id` int(11) DEFAULT NULL,
   `l3Id` int(11) DEFAULT NULL,

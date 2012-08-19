@@ -111,9 +111,9 @@ $app->delete('/delete', function () {
     echo 'This is a DELETE route';
 });
 
-$app->get('/questions','getQuestions');
+$app->get('/questions/','getQuestions');
 $app->get('/questions/:id','getQuestionByID');
-$app->get('/quizzes','getQuizzes');
+$app->get('/quizzes/','getQuizzes');
 $app->get('/quizzes/:id','getQuizByID');
 $app->get('/quizzes/getnext/:uid','getNextQuizzes');
 
@@ -275,8 +275,8 @@ function getQuestionByID($id) {
 }
 
 function getQuestions() {
-	echo "Getting Questions<br />";
-	$sql = "SELECT * from questions where flag='1'";
+	//echo "Getting Questions<br />";
+	$sql = "SELECT * from questions where availableFlag='1'";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);

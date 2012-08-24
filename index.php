@@ -117,6 +117,9 @@ $app->get('/quizzes/','getQuizzes');
 $app->get('/quizzes/:id','getQuiz');
 $app->get('/questionsets/','getQuestionSets');
 $app->get('/questionsets/:id','getQuestionSet');
+$app->get('/flashcards/','getAllFlashCards');
+$app->get('/flashcards/:id','getFlashCard');
+$app->get('/flashcardlists/','getFlashCardLists');
 
 $app->get('/practicetests/','getPracticeTests');
 $app->get('/practicetests/:id','getPracticeTest');
@@ -150,6 +153,66 @@ function generateQuizByUID($uid)
 	$testIDs = array(1,2,3,4,5,6);
 	return $testIDs;
 	
+}
+
+function getFlashCardLists() {
+	$sql = "SELECT * from flash_cards_list";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		// Include support for JSONP requests
+		if (!isset($_GET['callback'])) {
+			echo json_encode($projects);
+		} else {
+			echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+		}
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
+function getAllFlashCards() {
+	$sql = "SELECT * from flash_cards";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		// Include support for JSONP requests
+		if (!isset($_GET['callback'])) {
+			echo json_encode($projects);
+		} else {
+			echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+		}
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
+function getFlashCard($id) {
+	$sql = "SELECT * from flash_cards where id='$id'";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		// Include support for JSONP requests
+		if (!isset($_GET['callback'])) {
+			echo substr(json_encode($projects),1,strlen(json_encode($projects))-2);
+			//What fucking stupidity, 
+			//if I don't implement workaround,
+			//the attributes go into a subproperty. fucking shite. -TB.
+			//echo json_encode($projects);
+			
+			
+		} else {
+			echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+		}
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
 }
 
 function getNextQuizzes($uid) {

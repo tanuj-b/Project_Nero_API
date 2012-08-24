@@ -118,6 +118,9 @@ $app->get('/quizzes/:id','getQuiz');
 $app->get('/questionsets/','getQuestionSets');
 $app->get('/questionsets/:id','getQuestionSet');
 
+$app->get('/practicetests/','getPracticeTests');
+$app->get('/practicetests/:id','getPracticeTest');
+
 $app->get('/quizzes/getnext/:uid','getNextQuizzes');
 
 /*
@@ -354,6 +357,43 @@ function getQuiz($id) {
 
 function getQuizzes() {
 	$sql = "SELECT * from quizzes";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+        // Include support for JSONP requests
+        if (!isset($_GET['callback'])) {
+            echo json_encode($projects);
+        } else {
+            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+        }
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}				
+}
+
+function getPracticeTest($id) {
+	echo "Getting Test $id <br />";
+	$sql = "SELECT * from quizzes where id='$id'";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+        // Include support for JSONP requests
+        if (!isset($_GET['callback'])) {
+            echo json_encode($projects);
+        } else {
+            echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+        }
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}				
+}
+
+function getPracticeTests() {
+	$sql = "SELECT * from practice_sets";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);

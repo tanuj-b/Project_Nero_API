@@ -456,7 +456,7 @@ function getPracticeTest($id) {
 }
 
 function getPracticeTests() {
-	$sql = "SELECT * from practice_sets";
+	$sql = "SELECT * from practice";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);

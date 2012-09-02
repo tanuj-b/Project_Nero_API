@@ -1,47 +1,15 @@
 <?php
-/**
- * Step 1: Require the Slim PHP 5 Framework
- *
- * If using the default file layout, the `Slim/` directory
- * will already be on your include path. If you move the `Slim/`
- * directory elsewhere, ensure that it is added to your include path
- * or update this file path as needed.
- */
+header("Access-Control-Allow-Origin: *");
 require 'Slim/Slim.php';
-
-/**
- * Step 2: Instantiate the Slim application
- *
- * Here we instantiate the Slim application with its default settings.
- * However, we could also pass a key-value array of settings.
- * Refer to the online documentation for available settings.
- */
 $app = new Slim();
-
-/**
- * Step 3: Define the Slim application routes
- *
- * Here we define several Slim application routes that respond
- * to appropriate HTTP request methods. In this example, the second
- * argument for `Slim::get`, `Slim::post`, `Slim::put`, and `Slim::delete`
- * is an anonymous function. If you are using PHP < 5.3, the
- * second argument should be any variable that returns `true` for
- * `is_callable()`. An example GET route for PHP < 5.3 is:
- *
- * $app = new Slim();
- * $app->get('/hello/:name', 'myFunction');
- * function myFunction($name) { echo "Hello, $name"; }
- *
- * The routes below work with PHP >= 5.3.
- */
 
 //GET route
 $app->get('/', function () {
-    $template = <<<EOT
+    $template = "
 <!DOCTYPE html>
     <html>
         <head>
-            <meta charset="utf-8"/>
+            <meta charset='utf-8'/>
             <title>TestRex. Rawr at the CAT.</title>
             <style>
                 html,body,div,span,object,iframe,
@@ -88,11 +56,11 @@ $app->get('/', function () {
         </head>
         <body>
             <h1>Welcome to TestRex!</h1>
-            <a href="./questions">Questions</a> <br />
-            <a href="./quizzes">tests</a> <br />
+            <a href='./questions'>Questions</a> <br />
+            <a href='./quizzes'>tests</a> <br />
         </body>
     </html>
-EOT;
+";
     echo $template;
 });
 
@@ -127,8 +95,13 @@ $app->get('/flashcards/','getAllFlashCards');
 $app->get('/flashcards/:id','getFlashCard');
 $app->get('/flashcardlists/','getFlashCardLists');
 
+
 $app->get('/l1/','getL1');
 $app->get('/l2/','getL2');
+
+$app->get('/practicetests/','getPracticeTests');
+$app->get('/practicetests/:id','getPracticeTest');
+$app->get('/quizzes/sync/:uid','getSyncQuizIds');
 
 $app->get('/quizzes/getnext/:uid','getNextQuizzes');
 
@@ -163,6 +136,24 @@ function generateQuizByUID($uid)
 
 function getFlashCardLists() {
 	$sql = "SELECT * from flash_cards_list";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		// Include support for JSONP requests
+		if (!isset($_GET['callback'])) {
+			echo json_encode($projects);
+		} else {
+			echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+		}
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
+function getSyncQuizIds($uid){
+	$sql = "SELECT id from quizzes WHERE accountid ='" . $uid . "'";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);
@@ -526,11 +517,4 @@ function getConnection() {
 	return $dbh;
 }
 
-
-/**
- * Step 4: Run the Slim application
- *
- * This method should be called last. This is responsible for executing
- * the Slim application using the settings and routes defined above.
- */
 $app->run();

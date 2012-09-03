@@ -12,7 +12,7 @@ MySQL - 5.5.25a : Database - edu
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`edu` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`edu` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `edu`;
 
@@ -198,23 +198,6 @@ CREATE TABLE `practice` (
 
 insert  into `practice`(`id`,`questionSetIds`,`l2Id`,`accountId`,`currentFlag`,`mobileFlag`) values (1,'1|:2|:3',NULL,NULL,NULL,NULL);
 
-/*Table structure for table `question_list` */
-
-DROP TABLE IF EXISTS `question_list`;
-
-CREATE TABLE `question_list` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `paragraph` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `question_count` int(2) DEFAULT NULL,
-  `question_id_list` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'question ids separated by ||',
-  `difficulty` int(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-/*Data for the table `question_list` */
-
-insert  into `question_list`(`id`,`paragraph`,`question_count`,`question_id_list`,`difficulty`) values (1,'iuhiufsihcihsihciuhi',1,'1',NULL),(2,'cccc',1,'2',NULL),(3,'iuhiufsihcihsihciuhi',1,'3',NULL),(4,'cccc',1,'4',NULL);
-
 /*Table structure for table `question_sets` */
 
 DROP TABLE IF EXISTS `question_sets`;
@@ -229,11 +212,11 @@ CREATE TABLE `question_sets` (
   `difficulty` int(1) DEFAULT NULL,
   `mobileFlag` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `question_sets` */
 
-insert  into `question_sets`(`id`,`paragraph`,`questionIds`,`questionCount`,`resourceIds`,`l3Id`,`difficulty`,`mobileFlag`) values (1,'iuhiufsihcihsihciuhi','1',1,NULL,NULL,NULL,NULL),(2,'cccc','2',1,NULL,NULL,NULL,NULL),(3,'iuhiufsihcihsihciuhi','3',1,NULL,NULL,NULL,NULL),(4,'cccc','4',1,NULL,NULL,NULL,NULL);
+insert  into `question_sets`(`id`,`paragraph`,`questionIds`,`questionCount`,`resourceIds`,`l3Id`,`difficulty`,`mobileFlag`) values (1,'iuhiufsihcihsihciuhi','1',1,NULL,NULL,NULL,NULL),(2,'cccc','2',1,NULL,NULL,NULL,NULL),(3,'iuhiufsihcihsihciuhi','3',1,NULL,NULL,NULL,NULL),(4,'cccc','4',1,NULL,NULL,NULL,NULL),(5,NULL,'5',1,NULL,NULL,NULL,NULL),(6,NULL,'6',1,NULL,NULL,NULL,NULL),(7,NULL,'7',1,NULL,NULL,NULL,NULL),(8,NULL,'8',1,NULL,NULL,NULL,NULL),(9,NULL,'9',1,NULL,NULL,NULL,NULL),(10,NULL,'10',NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `question_tags` */
 
@@ -291,11 +274,11 @@ CREATE TABLE `questions` (
   PRIMARY KEY (`id`),
   KEY `question_list_id` (`questionSetId`),
   CONSTRAINT `questions_ibfk_2` FOREIGN KEY (`questionSetId`) REFERENCES `question_sets` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=ascii;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=ascii;
 
 /*Data for the table `questions` */
 
-insert  into `questions`(`id`,`questionText`,`options`,`correctOption`,`explanation`,`l3Id`,`difficulty`,`questionSetId`,`averageTimeCorrect`,`mobileFlag`,`availableFlag`,`averageTimeIncorrect`,`averageTimeUnattempted`,`resourcesIds`,`tagIds`,`allotedTime`,`qscoreCorrect`,`qscoreIncorrect`,`qscoreUnattempted`,`qscore`) values (1,'aaaa','a|:b|:c|:d',0,'exexexeex',NULL,NULL,1,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'bbbb','a|:b',0,'exexexe',NULL,NULL,1,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'ddd','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'eeee','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(6,'fff','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(7,'ggg','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(8,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(9,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(10,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(11,'ccc','e|:f',1,NULL,NULL,NULL,2,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(12,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `questions`(`id`,`questionText`,`options`,`correctOption`,`explanation`,`l3Id`,`difficulty`,`questionSetId`,`averageTimeCorrect`,`mobileFlag`,`availableFlag`,`averageTimeIncorrect`,`averageTimeUnattempted`,`resourcesIds`,`tagIds`,`allotedTime`,`qscoreCorrect`,`qscoreIncorrect`,`qscoreUnattempted`,`qscore`) values (1,'aaaa','a|:b|:c|:d',0,'exexexeex',NULL,1,1,'0000-00-00 00:00:00',1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(2,'bbbb','a|:b',0,'exexexe',NULL,1,1,NULL,1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(3,'cccc','e|:f',1,NULL,NULL,1,2,NULL,1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(4,'dddd','e|:f',1,NULL,NULL,1,2,NULL,1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(5,'eeee','e|:f',1,NULL,NULL,4,2,NULL,1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(6,'fff','e|:f',1,NULL,NULL,4,2,NULL,1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(7,'ggg','e|:f',1,NULL,NULL,2,2,NULL,1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(8,'hhhh','e|:f',1,NULL,NULL,2,2,NULL,1,1,NULL,NULL,NULL,'2',NULL,NULL,NULL,NULL,NULL),(9,'iiii','e|:f',1,NULL,NULL,5,2,NULL,1,1,NULL,NULL,NULL,'2',NULL,NULL,NULL,NULL,NULL),(10,'jjjj','e|:f',1,NULL,NULL,5,2,NULL,1,1,NULL,NULL,NULL,'1',NULL,NULL,NULL,NULL,NULL),(11,'kkkk','e|:f',1,NULL,NULL,5,2,NULL,1,1,NULL,NULL,NULL,'2',NULL,NULL,NULL,NULL,NULL),(12,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,NULL,NULL,NULL,'2',NULL,NULL,NULL,NULL,NULL),(13,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,'2',NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `quizzes` */
 
@@ -309,13 +292,13 @@ CREATE TABLE `quizzes` (
   `currentFlag` int(1) DEFAULT NULL,
   `mobileFlag` int(1) DEFAULT NULL,
   `questionSetCount` int(3) DEFAULT NULL,
-  `allotedTime` timestamp NULL DEFAULT NULL,
+  `allotedTime` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=ascii;
 
 /*Data for the table `quizzes` */
 
-insert  into `quizzes`(`id`,`questionSetIds`,`l1Id`,`accountId`,`currentFlag`,`mobileFlag`,`questionSetCount`,`allotedTime`) values (1,'1|:2|:3|:4',NULL,NULL,NULL,NULL,NULL,NULL),(2,'4|:3|:2|:1',NULL,NULL,NULL,NULL,NULL,NULL),(3,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(4,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(5,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(6,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL);
+insert  into `quizzes`(`id`,`questionSetIds`,`l1Id`,`accountId`,`currentFlag`,`mobileFlag`,`questionSetCount`,`allotedTime`) values (1,'1|:2|:3|:4|:5|:6|:7|:8|:9|:10',NULL,NULL,NULL,NULL,10,10),(2,'4|:3|:2|:1',NULL,NULL,NULL,NULL,NULL,NULL),(3,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(4,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(5,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL),(6,'1|:2',NULL,NULL,NULL,NULL,NULL,NULL);
 
 /*Table structure for table `resources` */
 

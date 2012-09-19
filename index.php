@@ -98,6 +98,7 @@ $app->get('/flashcardlists/','getFlashCardLists');
 
 $app->get('/l1/','getL1');
 $app->get('/l2/','getL2');
+$app->get('/l3/','getL3');
 
 $app->get('/practicetests/','getPracticeTests');
 $app->get('/practicetests/:id','getPracticeTest');
@@ -507,9 +508,29 @@ function getL2() {
 		echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}				
 }
+
+function getL3() {
+	//echo "Getting Questions<br />";
+	$sql = "SELECT * from section_l3 ";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		// Include support for JSONP requests
+		if (!isset($_GET['callback'])) {
+			echo json_encode($projects);
+		} else {
+			echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+		}
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
 function getConnection() {
 	$dbhost="localhost";
-	$dbuser="dbuser";
+	$dbuser="root";
 	$dbpass="trial";
 	$dbname="edu";
 	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);	

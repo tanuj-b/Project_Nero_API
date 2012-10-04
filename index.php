@@ -104,7 +104,12 @@ $app->get('/practicetests/','getPracticeTests');
 $app->get('/practicetests/:id','getPracticeTest');
 $app->get('/quizzes/sync/:uid','getSyncQuizIds');
 
-$app->get('/quizzes/getnext/:uid','getNextQuizzes');
+$app->get('/quizzes/getnext/:accountId','getNextQuizzes');
+
+$app->post('/responses/', 'addResponse');
+/*$app->put('/wines/:id', 'updateWine');
+$app->delete('/wines/:id',	'deleteWine');
+*/
 
 /*
 Functions : getQuestions (All Questions)
@@ -112,6 +117,30 @@ Functions : getQuestions (All Questions)
 			getTests (All Tests)
 			getTestByID (Tests by ID)
 */
+
+function addResponse() {
+	// error_log('addWine\n', 3, '/var/tmp/php.log');
+	$request = Slim::getInstance()->request();
+	$wine = json_decode($request->getBody());
+	$sql = "INSERT INTO responses (accountId, quizId, questionId, optionSelected, timeTaken) VALUES (:accountId, :quizId, :questionId, :optionSelected, :timeTaken)";
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("accountId", $wine->accountId);
+		$stmt->bindParam("quizId", $wine->quizId);
+		$stmt->bindParam("questionId", $wine->questionId);
+		$stmt->bindParam("optionSelected", $wine->optionSelected);
+		$stmt->bindParam("timeTaken", $wine->timeTaken);
+		$stmt->execute();
+		$wine->id = $db->lastInsertId();
+		$db = null;
+		echo json_encode($wine);
+	} catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
 function objectToArray( $object )
     {
         if( !is_object( $object ) && !is_array( $object ) )
@@ -213,7 +242,7 @@ function getFlashCard($id) {
 	}
 }
 
-function getNextQuizzes($uid) {
+function getNextQuizzes($accountId) {
 	
 	$testIDs = generateQuizByUID($uid);
 	$sql = "SELECT * from quizzes where id IN (".implode(",",$testIDs).")";

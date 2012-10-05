@@ -107,6 +107,9 @@ $app->get('/quizzes/sync/:uid','getSyncQuizIds');
 $app->get('/quizzes/getnext/:accountId','getNextQuizzes');
 
 $app->post('/responses/', 'addResponse');
+
+$app->get('/getLastSync/:timestamp','getLastSync');
+
 /*$app->put('/wines/:id', 'updateWine');
 $app->delete('/wines/:id',	'deleteWine');
 */
@@ -118,7 +121,78 @@ Functions : getQuestions (All Questions)
 			getTestByID (Tests by ID)
 */
 
+
+function getLastSync($timestamp){
+	$sql = "SELECT quizId,optionsSelected,timeTaken from quizzes_pushed where accountId='1' and syncTimeStamp >".$timestamp." ; ";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);
+		$projects = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		// Include support for JSONP requests
+		if (!isset($_GET['callback'])) {
+			echo json_encode($projects);
+		} else {
+			echo $_GET['callback'] . '(' . json_encode($projects) . ');';
+		}
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+}
+
 function addResponse() {
+	// error_log('addWine\n', 3, '/var/tmp/php.log');
+	$request = Slim::getInstance()->request();
+	$wine = json_decode($request->getBody());
+	$sql = "INSERT INTO quizzes_pushed (accountId, quizId, optionsSelected, timeTaken, syncTimeStamp) VALUES (:accountId, :quizId, :optionsSelected, :timeTaken,:syncTimeStamp)";
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("accountId", $wine->accountId);
+		$stmt->bindParam("quizId", $wine->quizId);
+		//$stmt->bindParam("questionId", $wine->questionId);
+		$stmt->bindParam("optionsSelected", $wine->optionsSelected);
+		$stmt->bindParam("timeTaken", $wine->timeTaken);
+		$stmt->bindParam("syncTimeStamp", $wine->timestamp);
+		$stmt->execute();
+		$wine->id = $db->lastInsertId();
+		$db = null;
+		echo json_encode($wine);
+	} catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+	
+	$qIds = explode("|:", $wine->questionIds);
+	$os = explode("|:", $wine->optionsSelected);
+	$tt = explode("|:", $wine->timeTaken);
+	
+	$len = sizeof($qIds);
+for ($i=0; $i<$len; $i++)
+{
+	
+	
+	$sql = "INSERT INTO responses (accountId, quizId, questionId, optionSelected, timeTaken) VALUES (:accountId, :quizId, :questionId, :optionSelected, :timeTaken)";
+		try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);
+		$stmt->bindParam("accountId", $wine->accountId);
+		$stmt->bindParam("quizId", $wine->quizId);
+		$stmt->bindParam("questionId", $qIds[$i]);
+		$stmt->bindParam("optionSelected", $os[$i]);
+		$stmt->bindParam("timeTaken", $os[$i]);
+		$stmt->execute();
+		$wine->id = $db->lastInsertId();
+		$db = null;
+		echo json_encode($wine);
+	} catch(PDOException $e) {
+		error_log($e->getMessage(), 3, '/var/tmp/php.log');
+		echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+	}
+}
+
+function addResponse1() {
 	// error_log('addWine\n', 3, '/var/tmp/php.log');
 	$request = Slim::getInstance()->request();
 	$wine = json_decode($request->getBody());

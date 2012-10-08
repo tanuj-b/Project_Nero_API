@@ -4,6 +4,7 @@ require 'Slim/Slim.php';
 $app = new Slim();
 
 //GET route
+/*
 $app->get('/', function () {
     $template = "
 <!DOCTYPE html>
@@ -62,7 +63,7 @@ $app->get('/', function () {
     </html>
 ";
     echo $template;
-});
+});*/
 
 //POST route
 $app->post('/post', function () {
